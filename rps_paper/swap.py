@@ -34,7 +34,7 @@ def find_best_configs(n):
     # Don't put the diags because we really want to minimize size of this
     combos = (itertools.product((0,1), repeat=len(up_inds[0]) - n))
     curr = 100*n - 3
-    combo = ()
+    combo = np.zeros((n,n))
     a = 0
     b = 0
     for item in combos:
@@ -54,11 +54,11 @@ def find_best_configs(n):
         np.fill_diagonal(r2, 1)
         q,z,c = max_of_min(n, r2)
         if c < curr:
-            combo = item
+            combo = r2.astype(int)
             curr = c
             a = q
             b = z
-    print("Triangle", combo)
+    print(combo)
     print("swaps", curr)
     print("person 1", a)
     print("Person 2", b)
