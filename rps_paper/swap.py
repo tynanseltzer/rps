@@ -39,8 +39,13 @@ def find_best_configs(n):
     b = 0
     for item in combos:
         item = list(item)
+        # this is ugly
+        inc = 0
         for i in range(n):
-            item.insert(i * (n+1), 1)
+            item.insert(inc, 1)
+            inc += (n-i)
+
+
         r2 = ret.astype(bool).copy()
         r2[up_inds] = item
         i_lower = np.tril_indices(len(r2))
@@ -53,10 +58,12 @@ def find_best_configs(n):
             curr = c
             a = q
             b = z
-    print(combo)
-    print(curr)
-    print(a)
-    print(b)
+    print("Triangle", combo)
+    print("swaps", curr)
+    print("person 1", a)
+    print("Person 2", b)
 
 
-find_best_configs(7)
+for i in range(3, 100):
+    print(i)
+    find_best_configs(i)
