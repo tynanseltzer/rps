@@ -2,13 +2,9 @@
 # We'll do this by for each graph, we do all the swaps and see how much each edge changed.
 
 import numpy as np
-from general_functions import graph_generator
+from general_functions import graph_generator, do_swap
 
-def do_swap(p1, p2, dag):
-    bar = dag.copy()
-    bar[:, [p1, p2]] = bar[:, [p2, p1]]
-    bar[[p1, p2], :] = bar[[p2, p1], :]
-    return bar
+
 def swaps_of_graph(n, g):
     hold = np.zeros((n, n))
     np.fill_diagonal(hold, n ** 2)

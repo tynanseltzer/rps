@@ -24,3 +24,9 @@ def graph_generator(n):
         np.fill_diagonal(r2, 1)
 
         yield r2
+
+def do_swap(p1, p2, dag):
+    bar = dag.copy()
+    bar[:, [p1, p2]] = bar[:, [p2, p1]]
+    bar[[p1, p2], :] = bar[[p2, p1], :]
+    return bar
