@@ -3,6 +3,7 @@
 import numpy as np
 import itertools
 import cProfile
+from general_functions import graph_generator
 
 # we represent a dag as a square array, 1 if row beats column, 0 if not
 # assume p1 < p2
@@ -29,29 +30,11 @@ def max_of_min(n, swap_list):
     return r1, r2, curr
 
 def find_best_configs(n):
-    ret = np.zeros((n,n))
-    up_inds = np.triu_indices(len(ret))
-    # Don't put the diags because we really want to minimize size of this
-    combos = (itertools.product((0,1), repeat=len(up_inds[0]) - n))
     curr = 100*n - 3
     combo = np.zeros((n,n))
     a = 0
     b = 0
-    for item in combos:
-        item = list(item)
-        # this is ugly
-        inc = 0
-        for i in range(n):
-            item.insert(inc, 1)
-            inc += (n-i)
-
-
-        r2 = ret.astype(bool).copy()
-        r2[up_inds] = item
-        i_lower = np.tril_indices(len(r2))
-        r2[i_lower] = r2.T[i_lower]
-        r2[i_lower] = ~r2[i_lower]
-        np.fill_diagonal(r2, 1)
+    for r2 in graph_generator(n):
         q,z,c = max_of_min(n, r2)
         if c < curr:
             combo = r2.astype(int)
